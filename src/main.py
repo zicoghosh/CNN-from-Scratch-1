@@ -1,9 +1,18 @@
-from model import Network
+import sys
+import os
+
+project_path = 'C:\\Users\\ghosh\\Dropbox\\MTech CS\\NNA\\CS1926-assign4_CNN\\GIthub\\CNN-from-Scratch-1\\'
+# Load necessary user defined functions 
+sys.path.insert(0,project_path + 'src')
 from inout import load_mnist, load_cifar, preprocess
+from model import Network
+print ('Successfully loaded functions')
+
+cifar_data_path = project_path + "Dataset\\cifar-10-batches-py\\"
 
 if __name__ == '__main__':
 
-    '''
+    """
         Hyper parameters
         
             - dataset_name              choose between 'mnist' and 'cifar'
@@ -16,9 +25,9 @@ if __name__ == '__main__':
             - plot_correct              > 0 --> plot correct predicted digits from test set
             - plot_missclassified       > 0 --> plot missclassified digits from test set
             - plot_feature_maps         > 0 --> plot feature maps of predicted digits from test set
-    '''
+    """
 
-    dataset_name = 'mnist'
+    dataset_name = 'cifar'
     num_epochs = 1
     learning_rate = 0.01
     validate = 1
@@ -30,7 +39,7 @@ if __name__ == '__main__':
     plot_feature_maps = 0
 
     print('\n--- Loading ' + dataset_name + ' dataset ---')                 # load dataset
-    dataset = load_mnist() if dataset_name is 'mnist' else load_cifar()
+    dataset = load_mnist() if dataset_name == 'mnist' else load_cifar(cifar_data_path)
 
     print('\n--- Processing the dataset ---')                               # pre process dataset
     dataset = preprocess(dataset)

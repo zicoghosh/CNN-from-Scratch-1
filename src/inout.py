@@ -6,7 +6,7 @@ import idx2numpy
 import numpy as np
 from six.moves import cPickle
 import platform
-import cv2
+#import cv2
 sns.set(color_codes=True)
 
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)          # suppress messages from TensorFlow
@@ -55,6 +55,7 @@ def load_pickle(f):
 
 def load_CIFAR_batch(filename):
     X_batch = []
+    print("filename received:",filename)
     with open(filename, 'rb') as f:
         datadict = load_pickle(f)
         for i in range(datadict['data'].shape[0]):
@@ -62,15 +63,16 @@ def load_CIFAR_batch(filename):
         return np.array(X_batch), np.array(datadict['labels'])
 
 
-def load_cifar():
+def load_cifar(data_path):
     X_train, y_train = [], []
     for batch in range(1, 6):
-        X_batch, y_batch = load_CIFAR_batch(os.path.join('CIFAR_data', 'data_batch_%d' % batch))
+        print("opening file:",os.path.join(data_path, 'data_batch_%d' % batch))
+        X_batch, y_batch = load_CIFAR_batch(os.path.join(data_path, 'data_batch_%d' % batch))
         X_train.append(X_batch)
         y_train.append(y_batch)
     X_train = np.concatenate(X_train)
     y_train = np.concatenate(y_train)
-    X_test, y_test = load_CIFAR_batch(os.path.join('CIFAR_data', 'test_batch'))
+    X_test, y_test = load_CIFAR_batch(os.path.join(data_path, 'test_batch'))
 
     indices = np.random.permutation(X_train.shape[0])                       # permute and split training data in
     training_idx, validation_idx = indices[:49000], indices[49000:]         # training and validation sets

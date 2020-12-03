@@ -1,9 +1,7 @@
 import numpy as np
 
-
 def softmax(x):
-    return np.exp(x) / np.sum(np.exp(x), axis=0)
-
+    return np.exp(x-max(x))/np.sum(np.exp(x-max(x)), axis=0)
 
 def cross_entropy(x):
     return -np.log(x)
@@ -25,9 +23,9 @@ def leakyReLU_derivative(x, alpha=0.01):
 
 
 def lr_schedule(learning_rate, iteration):
-    if iteration == 0:
+    if (iteration == 0 or iteration<=10000):
         return learning_rate
-    if iteration > 10000:
+    if iteration > 10000 or iteration <=30000:
         return learning_rate * 0.1
     if iteration > 30000:
         return learning_rate * 0.1
